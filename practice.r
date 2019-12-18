@@ -1,5 +1,7 @@
-data = read.csv("6.csv")
+library(MASS)
+library(ggplot2)
 
+data = read.csv("7.csv")
 data$default = gsub("No",0,data$default)
 data$default = gsub("Yes",1,data$default)
 data$student = gsub("No",0,data$student)
@@ -20,14 +22,17 @@ test = data[-row.number,]
 dim(train)
 dim(test)
 
-model = glm(default ~ student + balance + income, data = train, family = binomial)
-summary(model)
+model = lda(default ~ student + balance + income, data = train)
 model
+summary(model)
 
-pred.prob_train = predict(model, type = "response")
-pred.prob_train = ifelse(pred.prob_train > 0.5, 1, 0)
-table(pred.prob_train, data[row.number,]$default)
+pred1 = predict(model, data = train)
+table(pred1$class, data[row.number,]$default)
 
-pred.prob_test = predict(model, newdata = test, type = "response")
-pred.prob_test = ifelse(pred.prob_test > 0.5, 1, 0)
-table(pred.prob_test, data[-row.number,]$default)
+pred2 = predict(model, newdata = test)
+table(pred2$class, data[-row.number,]$default)
+
+ldahist(pred1$x[,1], g= pred1$class)
+
+par(mfrow=c(1,1))
+plot(pred2$x[,1], pred2$class, col=test$default)

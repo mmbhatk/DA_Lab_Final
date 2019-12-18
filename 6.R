@@ -24,10 +24,10 @@ model = glm(default ~ student + balance + income, data = train, family = binomia
 summary(model)
 model
 
-pred.prob_train = predict(model, type = "response")
+pred.prob_train = predict(model, data = train)
 pred.prob_train = ifelse(pred.prob_train > 0.5, 1, 0)
 table(pred.prob_train, data[row.number,]$default)
 
-pred.prob_test = predict(model, newdata = test, type = "response")
+pred.prob_test = predict(model, newdata = test)
 pred.prob_test = ifelse(pred.prob_test > 0.5, 1, 0)
 table(pred.prob_test, data[-row.number,]$default)
