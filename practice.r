@@ -1,21 +1,24 @@
-stream <- c(1, 5, 3, 4, 1, 3, 4, 5, 1, 3, 4, 5, 1, 1, 5, 4, 3, 4)
-stream <- as.numeric(as.factor(stream))
+library(MASS)
+library(ggplot2)
 
-b <- function(x) {
-  num = as.numeric(intToBits(x))
-  index = match(1, num) - 1
-  return(index)
-}
+data = read.csv('7.csv')
 
-h <- c()
-for(i in 1:length(stream)) {
-  h[i] <- ((6 * stream[i] + 1) %% 5)
-}
+data$default = gsub("No", 0, data$default)
+data$default = gsub("Yes", 1, data$default)
+data$student = gsub("No", 0, data$student)
+data$student = gsub("Yes", 1, data$student)
 
-B <- c()
-for(i in 1:length(stream)) {
-  B[i] <- b(h[i])
-}
+data$default = as.integer(data$default)
+data$student = as.integer(data$student)
 
-B[is.na(B)] <- 0
-print(2 ^ max(B))
+set.seed(1)
+row.number = sample(1:nrow(data), 0.6 * nrow(data))
+train = data[row.number,]
+test = data[-row.number,]
+dim(train)
+dim(test)
+
+model = lda(default ~ student + balance + income, data = train)
+summary(model)
+
+prob_train = predict(model, train)
