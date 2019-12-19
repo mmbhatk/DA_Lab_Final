@@ -1,26 +1,23 @@
-stream <- c(1, 2, 3, 5, 9, 2, 3, 8, 10, 16, 19)
-stream <- as.numeric(as.factor(stream))
-print(stream)
 
-# Returns the number of trailing zeroes
-b <- function(x) {
-  num = as.numeric(intToBits(x))
-  index <- match(1, num) - 1
-  return(index)
+x<-c("Hello","world","Ralph","Internet")
+x<-as.numeric(as.factor(x))
+print(x)
+h<-function(var){
+  return ((6*var+1)%%5)
 }
-
-# Step 1: Calculate the hash values
-H <- c()
-for(i in 1:length(stream)){
-  H[i] <- ((6 * i + 1) %% 5)
+H<-c()
+for(i in 1:length(x)){
+  H[i]<-h(x[i])
 }
-
-# Step 2: Count number of trailing zeroes in binary representation
-B <- c()
+b<-function(var){
+  l1=as.numeric(intToBits(var))
+  index<-match(1,l1)-1
+  return (index)
+}
+B<-c()
 for(i in 1:length(H)){
-  B[i] <- b(H[i])
+  B[i]<-b(H[i])
 }
 
-B[is.na(B)] <- 0
-print(B)
-print(2 ^ max(B))
+B[is.na(B)]<-0
+print(2^max(B))
