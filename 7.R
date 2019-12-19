@@ -23,7 +23,7 @@ test = data[-row.number,]
 dim(train)
 dim(test)
 
-model = lda(default ~ student +balance + income, data = train)
+model = lda(default ~ student + balance + income, data = train)
 model
 summary(model)
 

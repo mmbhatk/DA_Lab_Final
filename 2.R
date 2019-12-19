@@ -31,6 +31,7 @@ se
 model <- lm(y ~ x1 + x2, data = data)
 summary(model)
 data$pred2 <- predict(model, data)
+data$pred2
 
 plot(data$pred, y)
 plot(data$pred, y, xlab = "Predicted", ylab = "Actual")
